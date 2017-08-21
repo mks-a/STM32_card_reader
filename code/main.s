@@ -17,34 +17,18 @@ USAGE_FAULT: .word usage_fault
 .org 0x000000D0
 SPI2_INTERRUPT: .word spi2_interrupt + 1
 
-.ifndef SLEEP_MODES_DEF
-.include "stm32f103c8t6_core/sleep_modes.inc"
-.endif
-
-.ifndef CPU_DEF
-.include "stm32f103c8t6_core/cpu.inc"
-.endif
-
 .ifndef SDCARD_DEF
 .include "sdcard_reader/sdcard_reader.inc"
 .endif
 
 @.balign 2 				@ if bit 0 of address is 1 this indicate Thumb state of CPU, for Cortex-M it always should be 1, becaus it not support ARM state
 main:
-
-	push {lr}
-	bl cpu_init
-	pop {lr}
 	
-	push {lr}
-	bl sleep_mode_init
-	pop {lr}
-	
-	push {lr}
-	bl sdcard_reader_init
-	pop {lr}
-	
+	@ TODO: temporary disable SPI interrupt 
 	cpsie i						@ enable interrupts
+	push {lr}
+	bl sdcard_reader_spi2_init
+	pop {lr}
 	
 _main_loop:
 

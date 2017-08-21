@@ -1,10 +1,14 @@
 SPI_DEF = 0
 
+.ifndef STM32F103C8T6_REGISTERS
+.include "stm32f103c8t6_core/registers.inc"
+.endif
+
 @ initialize comunication through SPI2 pins
 @ function does not take, nor recieve parameters
 spi_init_spi2:
 	push {r0, r1}	
-	
+
 	@ enable SPI2 clock
 	ldr r1, =RCC_APB1ENR
 	ldr r0, [r1]
@@ -12,11 +16,9 @@ spi_init_spi2:
 	orr r0, r0, 0x4000
 	str r0, [r1]
 	
-	@ set CPHA (bit 0) = 1, CPOL (bit 1) = 0, BR[2:0] (bits 5:3) = 000, DFF (bit 11) = 1
-	ldr r1, =SPI2_CR1
-	ldr r0, [r1]
-	
-	orr r0, r0, 0x801
+	@ set MSTR (bit 2) = 1, LSBFIRST (bit 7) = 1 
+	ldr r1, =SPI2_CR1	
+	ldr r0, =0x84
 	str r0, [r1]
 	
 	pop {r0, r1}
@@ -27,13 +29,37 @@ spi_init_spi2:
 spi_enable_spi2:
 	push {r0, r1}
 	
-	@ set MSTR (bit 2) = 1, SPE (bit 7) = 1
+	@ SPE (bit 6) = 1
 	ldr r1, =SPI2_CR1
 	ldr r0, [r1]
 	
-	orr r0, r0, 0x84
+	orr r0, r0, 0x40
 	
 	str r0, [r1]
 
+	pop {r0, r1}
+	bx lr
+	
+@ sends 8 bit data to SPI2
+@ recieve 8 bit data in r0 register
+@ function does not return any value
+@ this function sends data syncronuously (do not return control to the main program until data will be send)
+spi_send_data8_sync_spi2:
+	push {r0, r1}
+	
+	ldr r1, =SPI1_DR
+	
+	@ clear 3 highest bits in r0 register
+	and r0, r0, 0xFF
+	
+	str r0, [r1]
+	bkpt
+@ loop while TXE (bit 1) in SPI_SR is 0 (transmit buffer not empty)
+_spi_send_data8_sync_spi2_wait_loop:
+	ldr r1, =SPI1_SR
+	ldr r0, [r1]
+	ands r0, r0, 0x02									@ check for 1 bit (does it set or not)
+	beq	_spi_send_data8_sync_spi2_wait_loop				@ branch if zero
+	
 	pop {r0, r1}
 	bx lr

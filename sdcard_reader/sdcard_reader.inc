@@ -6,33 +6,44 @@ SDCARD_READER_DEF = 0
 
 @ initialize sdcard reader for using
 @ function does not take, nor recieve parameters
-sdcard_reader_init:
+@ Every command byte sent to an SD must have bit 6 set (0x40) (so the device can recognise it as a command and not some data).
+@ But every time we send a command (and it's parameters), we have to wait for a not-busy response from the SD card. 
+@ While the SD card is busy, it holds its "output pin" high - the data clocked out of it is always 11111111
+sdcard_reader_spi2_init:
+	push {r0, r1}
 	push {lr}
 	bl spi_init_spi2
 	bl spi_enable_spi2
 	pop {lr}
-
+	
+	@ call send function
+	push {lr}
+	@ set data to send (hope that is is CMD0)
+	ldr r0, =0x40		@ CMD0
+	bl spi_send_data8_sync_spi2
+	
+@ send 4 parameter bytes (all zeroes for CMD0)
+	ldr r0, =0x00
+	ldr r1, =0x04		@ set loop counter to 4
+_sdcard_reader_spi2_init_send_cmd0_param:
+	bl spi_send_data8_sync_spi2
+	subs r1, r1, 0x01
+	bne _sdcard_reader_spi2_init_send_cmd0_param	@ branch if not equal
+	
+	pop {lr}
+	pop {r0, r1}
 	bx lr
 	
-@ reads data from file
-@ return value in r12 register
-sdcard_reader_read_file:
+@ sends command to SD card via SPI interface
+@ recieve command in r0 register
+@ depending on selected mode 8 or 16 bit would be sended
+@ do not return any value
+sdcard_send_spi2_cmd:
+	push {r0, r1}
+	
+	ldr r1, =SPI2_DR
+	str r0, [r1]
+	
+	pop {r0, r1}
 	bx lr
 	
-@ writes data to file
-@ value to write is passed through r0 register
-@ function does not return parameters
-sdcard_reader_write_file:
-	bx lr
-
-sdcard_reader_open_file:
-	bx lr
-	
-sdcard_reader_close_file:
-	bx lr
-	
-sdcard_reader_create_file:
-	bx lr
-
-sdcard_reader_delete_file:
-	bx lr

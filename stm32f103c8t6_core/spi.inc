@@ -16,9 +16,9 @@ spi_init_spi2:
 	orr r0, r0, 0x4000
 	str r0, [r1]
 	
-	@ set MSTR (bit 2) = 1, LSBFIRST (bit 7) = 1, SSI (bit 8) = 1, SSM (bit 9) = 1
+	@ set MSTR (bit 2) = 1, LSBFIRST (bit 7) = 1, SSI (bit 8) = 1, SSM (bit 9) = 1 
 	ldr r1, =SPI2_CR1	
-	ldr r0, =0x384
+	ldr r0, =0x380
 	str r0, [r1]
 	
 	pop {r0, r1}
@@ -26,14 +26,15 @@ spi_init_spi2:
 	
 @ enable communication through SPI2 pins
 @ function does not take, nor recieve parameters
-spi_enable_spi2:
+spi_master_enable_spi2:
 	push {r0, r1}
 	
-	@ MSTR (bit 2) = 1 and SPE (bit 6) = 1
+	@ SPE (bit 6) = 1
 	ldr r1, =SPI2_CR1
 	ldr r0, [r1]
 	
-	orr r0, r0, 0x40
+	@MSTR and SPE bits must be set (they remain set only if the NSS pin is connected to a high-level signal
+	orr r0, r0, 0x44
 	str r0, [r1]
 	
 	bkpt

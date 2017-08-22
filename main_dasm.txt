@@ -36,16 +36,16 @@ Disassembly of section .text:
  80000da:	f440 4080 	orr.w	r0, r0, #16384	; 0x4000
  80000de:	6008      	str	r0, [r1, #0]
  80000e0:	492e      	ldr	r1, [pc, #184]	; (800019c <returtn_form_interrupt+0xa>)
- 80000e2:	f44f 7061 	mov.w	r0, #900	; 0x384
+ 80000e2:	f44f 7060 	mov.w	r0, #896	; 0x380
  80000e6:	6008      	str	r0, [r1, #0]
  80000e8:	bc03      	pop	{r0, r1}
  80000ea:	4770      	bx	lr
 
-080000ec <spi_enable_spi2>:
+080000ec <spi_master_enable_spi2>:
  80000ec:	b403      	push	{r0, r1}
  80000ee:	492b      	ldr	r1, [pc, #172]	; (800019c <returtn_form_interrupt+0xa>)
  80000f0:	6808      	ldr	r0, [r1, #0]
- 80000f2:	f040 0040 	orr.w	r0, r0, #64	; 0x40
+ 80000f2:	f040 0044 	orr.w	r0, r0, #68	; 0x44
  80000f6:	6008      	str	r0, [r1, #0]
  80000f8:	be00      	bkpt	0x0000
  80000fa:	6808      	ldr	r0, [r1, #0]
@@ -80,7 +80,7 @@ Disassembly of section .text:
  800012a:	b403      	push	{r0, r1}
  800012c:	b500      	push	{lr}
  800012e:	f7ff ffd1 	bl	80000d4 <spi_init_spi2>
- 8000132:	f7ff ffdb 	bl	80000ec <spi_enable_spi2>
+ 8000132:	f7ff ffdb 	bl	80000ec <spi_master_enable_spi2>
  8000136:	f85d eb04 	ldr.w	lr, [sp], #4
  800013a:	b500      	push	{lr}
  800013c:	f04f 0040 	mov.w	r0, #64	; 0x40
@@ -199,14 +199,14 @@ Disassembly of section .debug_line:
   78:	22212301 	eorcs	r2, r1, #67108864	; 0x4000000
   7c:	2f21232f 	svccs	0x0021232f
   80:	23252122 			; <UNDEFINED> instruction: 0x23252122
-  84:	222f2221 	eorcs	r2, pc, #268435458	; 0x10000002
+  84:	222f2321 	eorcs	r2, pc, #-2080374784	; 0x84000000
   88:	27212221 	strcs	r2, [r1, -r1, lsr #4]!
   8c:	21302322 	teqcs	r0, r2, lsr #6
   90:	21212321 			; <UNDEFINED> instruction: 0x21212321
   94:	2621222f 	strtcs	r2, [r1], -pc, lsr #4
   98:	22212f22 	eorcs	r2, r1, #34, 30	; 0x88
   9c:	03020421 	movweq	r0, #9249	; 0x2421
-  a0:	21207fbc 			; <UNDEFINED> instruction: 0x21207fbc
+  a0:	21207fbb 			; <UNDEFINED> instruction: 0x21207fbb
   a4:	312f2f21 			; <UNDEFINED> instruction: 0x312f2f21
   a8:	2f312f22 	svccs	0x00312f22
   ac:	22212f30 	eorcs	r2, r1, #48, 30	; 0xc0
@@ -219,7 +219,7 @@ Disassembly of section .debug_line:
   c8:	24212421 	strtcs	r2, [r1], #-1057	; 0xfffffbdf
   cc:	21252321 			; <UNDEFINED> instruction: 0x21252321
   d0:	43030104 	movwmi	r0, #12548	; 0x3104
-  d4:	2003352e 	andcs	r3, r3, lr, lsr #10
+  d4:	2103352e 	tstcs	r3, lr, lsr #10
   d8:	2e0a032e 	cdpcs	3, 0, cr0, cr10, cr14, {1}
   dc:	022e0f03 	eoreq	r0, lr, #3, 30
   e0:	01010002 	tsteq	r1, r2

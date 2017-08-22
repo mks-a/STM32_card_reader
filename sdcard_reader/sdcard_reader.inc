@@ -13,7 +13,7 @@ sdcard_reader_spi2_init:
 	push {r0, r1}
 	push {lr}
 	bl spi_init_spi2
-	bl spi_enable_spi2
+	bl spi_master_enable_spi2
 	pop {lr}
 	
 	@ call send function

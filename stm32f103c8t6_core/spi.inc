@@ -16,9 +16,9 @@ spi_init_spi2:
 	orr r0, r0, 0x4000
 	str r0, [r1]
 	
-	@ set MSTR (bit 2) = 1, LSBFIRST (bit 7) = 1 
+	@ set MSTR (bit 2) = 1, LSBFIRST (bit 7) = 1, SSI (bit 8) = 1, SSM (bit 9) = 1
 	ldr r1, =SPI2_CR1	
-	ldr r0, =0x84
+	ldr r0, =0x384
 	str r0, [r1]
 	
 	pop {r0, r1}
@@ -29,13 +29,15 @@ spi_init_spi2:
 spi_enable_spi2:
 	push {r0, r1}
 	
-	@ SPE (bit 6) = 1
+	@ MSTR (bit 2) = 1 and SPE (bit 6) = 1
 	ldr r1, =SPI2_CR1
 	ldr r0, [r1]
 	
 	orr r0, r0, 0x40
-	
 	str r0, [r1]
+	
+	bkpt
+	ldr r0, [r1]
 
 	pop {r0, r1}
 	bx lr
@@ -53,6 +55,7 @@ spi_send_data8_sync_spi2:
 	and r0, r0, 0xFF
 	
 	str r0, [r1]
+	ldr r0, [r1]
 	bkpt
 @ loop while TXE (bit 1) in SPI_SR is 0 (transmit buffer not empty)
 _spi_send_data8_sync_spi2_wait_loop:
@@ -63,3 +66,16 @@ _spi_send_data8_sync_spi2_wait_loop:
 	
 	pop {r0, r1}
 	bx lr
+
+@ reads response from SPI2 data register
+@ this function does not take any parameters
+@ function return SPI2_DR value in r0 register
+spi_read_sync_response_spi2:
+	push {r1}
+	
+	eor r0, r0, r0				@ clear r0 register
+	ldr r1, =SPI2_DR
+	ldr r0, [r1]
+	
+	pop {r1}
+	bx lr	

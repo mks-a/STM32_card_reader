@@ -8,133 +8,145 @@ Disassembly of section .text:
  8000000:	20005000 	andcs	r5, r0, r0
 
 08000004 <RESET>:
- 8000004:	08000152 	stmdaeq	r0, {r1, r4, r6, r8}
+ 8000004:	0800016a 	stmdaeq	r0, {r1, r3, r5, r6, r8}
 
 08000008 <NMI_HANDLER>:
- 8000008:	08000164 	stmdaeq	r0, {r2, r5, r6, r8}
+ 8000008:	0800017c 	stmdaeq	r0, {r2, r3, r4, r5, r6, r8}
 
 0800000c <HARD_FAULT>:
- 800000c:	08000168 	stmdaeq	r0, {r3, r5, r6, r8}
+ 800000c:	08000180 	stmdaeq	r0, {r7, r8}
 
 08000010 <MEMORY_FAULT>:
- 8000010:	0800016c 	stmdaeq	r0, {r2, r3, r5, r6, r8}
+ 8000010:	08000184 	stmdaeq	r0, {r2, r7, r8}
 
 08000014 <BUS_FAULT>:
- 8000014:	08000170 	stmdaeq	r0, {r4, r5, r6, r8}
+ 8000014:	08000188 	stmdaeq	r0, {r3, r7, r8}
 
 08000018 <USAGE_FAULT>:
- 8000018:	08000174 	stmdaeq	r0, {r2, r4, r5, r6, r8}
+ 8000018:	0800018c 	stmdaeq	r0, {r2, r3, r7, r8}
 	...
 
 080000d0 <SPI2_INTERRUPT>:
- 80000d0:	08000179 	stmdaeq	r0, {r0, r3, r4, r5, r6, r8}
+ 80000d0:	08000191 	stmdaeq	r0, {r0, r4, r7, r8}
 
 080000d4 <spi_init_spi2>:
  80000d4:	b403      	push	{r0, r1}
- 80000d6:	492a      	ldr	r1, [pc, #168]	; (8000180 <returtn_form_interrupt+0x6>)
+ 80000d6:	4930      	ldr	r1, [pc, #192]	; (8000198 <returtn_form_interrupt+0x6>)
  80000d8:	6808      	ldr	r0, [r1, #0]
  80000da:	f440 4080 	orr.w	r0, r0, #16384	; 0x4000
  80000de:	6008      	str	r0, [r1, #0]
- 80000e0:	4928      	ldr	r1, [pc, #160]	; (8000184 <returtn_form_interrupt+0xa>)
- 80000e2:	f04f 0084 	mov.w	r0, #132	; 0x84
+ 80000e0:	492e      	ldr	r1, [pc, #184]	; (800019c <returtn_form_interrupt+0xa>)
+ 80000e2:	f44f 7061 	mov.w	r0, #900	; 0x384
  80000e6:	6008      	str	r0, [r1, #0]
  80000e8:	bc03      	pop	{r0, r1}
  80000ea:	4770      	bx	lr
 
 080000ec <spi_enable_spi2>:
  80000ec:	b403      	push	{r0, r1}
- 80000ee:	4925      	ldr	r1, [pc, #148]	; (8000184 <returtn_form_interrupt+0xa>)
+ 80000ee:	492b      	ldr	r1, [pc, #172]	; (800019c <returtn_form_interrupt+0xa>)
  80000f0:	6808      	ldr	r0, [r1, #0]
  80000f2:	f040 0040 	orr.w	r0, r0, #64	; 0x40
  80000f6:	6008      	str	r0, [r1, #0]
- 80000f8:	bc03      	pop	{r0, r1}
- 80000fa:	4770      	bx	lr
+ 80000f8:	be00      	bkpt	0x0000
+ 80000fa:	6808      	ldr	r0, [r1, #0]
+ 80000fc:	bc03      	pop	{r0, r1}
+ 80000fe:	4770      	bx	lr
 
-080000fc <spi_send_data8_sync_spi2>:
- 80000fc:	b403      	push	{r0, r1}
- 80000fe:	4922      	ldr	r1, [pc, #136]	; (8000188 <returtn_form_interrupt+0xe>)
- 8000100:	f000 00ff 	and.w	r0, r0, #255	; 0xff
- 8000104:	6008      	str	r0, [r1, #0]
- 8000106:	be00      	bkpt	0x0000
-
-08000108 <_spi_send_data8_sync_spi2_wait_loop>:
- 8000108:	4920      	ldr	r1, [pc, #128]	; (800018c <returtn_form_interrupt+0x12>)
+08000100 <spi_send_data8_sync_spi2>:
+ 8000100:	b403      	push	{r0, r1}
+ 8000102:	4927      	ldr	r1, [pc, #156]	; (80001a0 <returtn_form_interrupt+0xe>)
+ 8000104:	f000 00ff 	and.w	r0, r0, #255	; 0xff
+ 8000108:	6008      	str	r0, [r1, #0]
  800010a:	6808      	ldr	r0, [r1, #0]
- 800010c:	f010 0002 	ands.w	r0, r0, #2
- 8000110:	d0fa      	beq.n	8000108 <_spi_send_data8_sync_spi2_wait_loop>
- 8000112:	bc03      	pop	{r0, r1}
- 8000114:	4770      	bx	lr
+ 800010c:	be00      	bkpt	0x0000
 
-08000116 <sdcard_reader_spi2_init>:
- 8000116:	b403      	push	{r0, r1}
- 8000118:	b500      	push	{lr}
- 800011a:	f7ff ffdb 	bl	80000d4 <spi_init_spi2>
- 800011e:	f7ff ffe5 	bl	80000ec <spi_enable_spi2>
- 8000122:	f85d eb04 	ldr.w	lr, [sp], #4
- 8000126:	b500      	push	{lr}
- 8000128:	f04f 0040 	mov.w	r0, #64	; 0x40
- 800012c:	f7ff ffe6 	bl	80000fc <spi_send_data8_sync_spi2>
- 8000130:	f04f 0000 	mov.w	r0, #0
- 8000134:	f04f 0104 	mov.w	r1, #4
+0800010e <_spi_send_data8_sync_spi2_wait_loop>:
+ 800010e:	4925      	ldr	r1, [pc, #148]	; (80001a4 <returtn_form_interrupt+0x12>)
+ 8000110:	6808      	ldr	r0, [r1, #0]
+ 8000112:	f010 0002 	ands.w	r0, r0, #2
+ 8000116:	d0fa      	beq.n	800010e <_spi_send_data8_sync_spi2_wait_loop>
+ 8000118:	bc03      	pop	{r0, r1}
+ 800011a:	4770      	bx	lr
 
-08000138 <_sdcard_reader_spi2_init_send_cmd0_param>:
- 8000138:	f7ff ffe0 	bl	80000fc <spi_send_data8_sync_spi2>
- 800013c:	3901      	subs	r1, #1
- 800013e:	d1fb      	bne.n	8000138 <_sdcard_reader_spi2_init_send_cmd0_param>
- 8000140:	f85d eb04 	ldr.w	lr, [sp], #4
- 8000144:	bc03      	pop	{r0, r1}
- 8000146:	4770      	bx	lr
+0800011c <spi_read_sync_response_spi2>:
+ 800011c:	b402      	push	{r1}
+ 800011e:	ea80 0000 	eor.w	r0, r0, r0
+ 8000122:	4921      	ldr	r1, [pc, #132]	; (80001a8 <returtn_form_interrupt+0x16>)
+ 8000124:	6808      	ldr	r0, [r1, #0]
+ 8000126:	bc02      	pop	{r1}
+ 8000128:	4770      	bx	lr
 
-08000148 <sdcard_send_spi2_cmd>:
- 8000148:	b403      	push	{r0, r1}
- 800014a:	4911      	ldr	r1, [pc, #68]	; (8000190 <returtn_form_interrupt+0x16>)
- 800014c:	6008      	str	r0, [r1, #0]
- 800014e:	bc03      	pop	{r0, r1}
- 8000150:	4770      	bx	lr
+0800012a <sdcard_reader_spi2_init>:
+ 800012a:	b403      	push	{r0, r1}
+ 800012c:	b500      	push	{lr}
+ 800012e:	f7ff ffd1 	bl	80000d4 <spi_init_spi2>
+ 8000132:	f7ff ffdb 	bl	80000ec <spi_enable_spi2>
+ 8000136:	f85d eb04 	ldr.w	lr, [sp], #4
+ 800013a:	b500      	push	{lr}
+ 800013c:	f04f 0040 	mov.w	r0, #64	; 0x40
+ 8000140:	f7ff ffde 	bl	8000100 <spi_send_data8_sync_spi2>
+ 8000144:	f04f 0000 	mov.w	r0, #0
+ 8000148:	f04f 0104 	mov.w	r1, #4
 
-08000152 <main>:
- 8000152:	b662      	cpsie	i
- 8000154:	b500      	push	{lr}
- 8000156:	f7ff ffde 	bl	8000116 <sdcard_reader_spi2_init>
- 800015a:	f85d eb04 	ldr.w	lr, [sp], #4
+0800014c <_sdcard_reader_spi2_init_send_cmd0_param>:
+ 800014c:	f7ff ffd8 	bl	8000100 <spi_send_data8_sync_spi2>
+ 8000150:	3901      	subs	r1, #1
+ 8000152:	d1fb      	bne.n	800014c <_sdcard_reader_spi2_init_send_cmd0_param>
+ 8000154:	f7ff ffe2 	bl	800011c <spi_read_sync_response_spi2>
+ 8000158:	f85d eb04 	ldr.w	lr, [sp], #4
+ 800015c:	bc03      	pop	{r0, r1}
+ 800015e:	4770      	bx	lr
 
-0800015e <_main_loop>:
- 800015e:	bf30      	wfi
- 8000160:	e7fd      	b.n	800015e <_main_loop>
- 8000162:	4770      	bx	lr
+08000160 <sdcard_send_spi2_cmd>:
+ 8000160:	b403      	push	{r0, r1}
+ 8000162:	4911      	ldr	r1, [pc, #68]	; (80001a8 <returtn_form_interrupt+0x16>)
+ 8000164:	6008      	str	r0, [r1, #0]
+ 8000166:	bc03      	pop	{r0, r1}
+ 8000168:	4770      	bx	lr
 
-08000164 <nmi_fault>:
- 8000164:	be00      	bkpt	0x0000
- 8000166:	4770      	bx	lr
+0800016a <main>:
+ 800016a:	b662      	cpsie	i
+ 800016c:	b500      	push	{lr}
+ 800016e:	f7ff ffdc 	bl	800012a <sdcard_reader_spi2_init>
+ 8000172:	f85d eb04 	ldr.w	lr, [sp], #4
 
-08000168 <hard_fault>:
- 8000168:	be00      	bkpt	0x0000
- 800016a:	4770      	bx	lr
+08000176 <_main_loop>:
+ 8000176:	bf30      	wfi
+ 8000178:	e7fd      	b.n	8000176 <_main_loop>
+ 800017a:	4770      	bx	lr
 
-0800016c <memory_fault>:
- 800016c:	be00      	bkpt	0x0000
- 800016e:	4770      	bx	lr
+0800017c <nmi_fault>:
+ 800017c:	be00      	bkpt	0x0000
+ 800017e:	4770      	bx	lr
 
-08000170 <bus_fault>:
- 8000170:	be00      	bkpt	0x0000
- 8000172:	4770      	bx	lr
+08000180 <hard_fault>:
+ 8000180:	be00      	bkpt	0x0000
+ 8000182:	4770      	bx	lr
 
-08000174 <usage_fault>:
- 8000174:	be00      	bkpt	0x0000
- 8000176:	4770      	bx	lr
+08000184 <memory_fault>:
+ 8000184:	be00      	bkpt	0x0000
+ 8000186:	4770      	bx	lr
 
-08000178 <spi2_interrupt>:
- 8000178:	4770      	bx	lr
+08000188 <bus_fault>:
+ 8000188:	be00      	bkpt	0x0000
+ 800018a:	4770      	bx	lr
 
-0800017a <returtn_form_interrupt>:
- 800017a:	be00      	bkpt	0x0000
- 800017c:	4770      	bx	lr
- 800017e:	101c0000 	andsne	r0, ip, r0
- 8000182:	38004002 	stmdacc	r0, {r1, lr}
- 8000186:	300c4000 	andcc	r4, ip, r0
- 800018a:	30084001 	andcc	r4, r8, r1
- 800018e:	380c4001 	stmdacc	ip, {r0, lr}
- 8000192:	Address 0x08000192 is out of bounds.
+0800018c <usage_fault>:
+ 800018c:	be00      	bkpt	0x0000
+ 800018e:	4770      	bx	lr
+
+08000190 <spi2_interrupt>:
+ 8000190:	4770      	bx	lr
+
+08000192 <returtn_form_interrupt>:
+ 8000192:	be00      	bkpt	0x0000
+ 8000194:	4770      	bx	lr
+ 8000196:	101c0000 	andsne	r0, ip, r0
+ 800019a:	38004002 	stmdacc	r0, {r1, lr}
+ 800019e:	300c4000 	andcc	r4, ip, r0
+ 80001a2:	30084001 	andcc	r4, r8, r1
+ 80001a6:	380c4001 	stmdacc	ip, {r0, lr}
+ 80001aa:	Address 0x080001aa is out of bounds.
 
 
 Disassembly of section .ARM.attributes:
@@ -154,7 +166,7 @@ Disassembly of section .ARM.attributes:
 Disassembly of section .debug_line:
 
 00000000 <.debug_line>:
-   0:	000000d7 	ldrdeq	r0, [r0], -r7
+   0:	000000e0 	andeq	r0, r0, r0, ror #1
    4:	00650002 	rsbeq	r0, r5, r2
    8:	01020000 	mrseq	r0, (UNDEF: 2)
    c:	000d0efb 	strdeq	r0, [sp], -fp
@@ -187,29 +199,30 @@ Disassembly of section .debug_line:
   78:	22212301 	eorcs	r2, r1, #67108864	; 0x4000000
   7c:	2f21232f 	svccs	0x0021232f
   80:	23252122 			; <UNDEFINED> instruction: 0x23252122
-  84:	22302221 	eorscs	r2, r0, #268435458	; 0x10000002
-  88:	23222721 			; <UNDEFINED> instruction: 0x23222721
-  8c:	21232130 			; <UNDEFINED> instruction: 0x21232130
-  90:	21222f21 			; <UNDEFINED> instruction: 0x21222f21
-  94:	4c030204 	sfmmi	f0, 4, [r3], {4}
-  98:	2f212120 	svccs	0x00212120
-  9c:	2f22312f 	svccs	0x0022312f
-  a0:	2f302f31 	svccs	0x00302f31
-  a4:	212f2221 			; <UNDEFINED> instruction: 0x212f2221
-  a8:	22212227 	eorcs	r2, r1, #1879048194	; 0x70000002
-  ac:	03030421 	movweq	r0, #13345	; 0x3421
-  b0:	2121206c 			; <UNDEFINED> instruction: 0x2121206c
-  b4:	2322322f 			; <UNDEFINED> instruction: 0x2322322f
-  b8:	21242124 			; <UNDEFINED> instruction: 0x21242124
-  bc:	21242124 			; <UNDEFINED> instruction: 0x21242124
-  c0:	25232124 	strcs	r2, [r3, #-292]!	; 0xfffffedc
-  c4:	03010421 	movweq	r0, #5153	; 0x1421
-  c8:	03352e43 	teqeq	r5, #1072	; 0x430
-  cc:	09032e1e 	stmdbeq	r3, {r1, r2, r3, r4, r9, sl, fp, sp}
-  d0:	0302042e 	movweq	r0, #9262	; 0x242e
-  d4:	02022e71 	andeq	r2, r2, #1808	; 0x710
-  d8:	Address 0x000000d8 is out of bounds.
-
+  84:	222f2221 	eorcs	r2, pc, #268435458	; 0x10000002
+  88:	27212221 	strcs	r2, [r1, -r1, lsr #4]!
+  8c:	21302322 	teqcs	r0, r2, lsr #6
+  90:	21212321 			; <UNDEFINED> instruction: 0x21212321
+  94:	2621222f 	strtcs	r2, [r1], -pc, lsr #4
+  98:	22212f22 	eorcs	r2, r1, #34, 30	; 0x88
+  9c:	03020421 	movweq	r0, #9249	; 0x2421
+  a0:	21207fbc 			; <UNDEFINED> instruction: 0x21207fbc
+  a4:	312f2f21 			; <UNDEFINED> instruction: 0x312f2f21
+  a8:	2f312f22 	svccs	0x00312f22
+  ac:	22212f30 	eorcs	r2, r1, #48, 30	; 0xc0
+  b0:	27212f30 			; <UNDEFINED> instruction: 0x27212f30
+  b4:	21222122 			; <UNDEFINED> instruction: 0x21222122
+  b8:	6a030304 	bvs	c0cd0 <SDCARD_READER_DEF+0xc0cd0>
+  bc:	2f212120 	svccs	0x00212120
+  c0:	24232232 	strtcs	r2, [r3], #-562	; 0xfffffdce
+  c4:	24212421 	strtcs	r2, [r1], #-1057	; 0xfffffbdf
+  c8:	24212421 	strtcs	r2, [r1], #-1057	; 0xfffffbdf
+  cc:	21252321 			; <UNDEFINED> instruction: 0x21252321
+  d0:	43030104 	movwmi	r0, #12548	; 0x3104
+  d4:	2003352e 	andcs	r3, r3, lr, lsr #10
+  d8:	2e0a032e 	cdpcs	3, 0, cr0, cr10, cr14, {1}
+  dc:	022e0f03 	eoreq	r0, lr, #3, 30
+  e0:	01010002 	tsteq	r1, r2
 
 Disassembly of section .debug_info:
 
@@ -219,7 +232,7 @@ Disassembly of section .debug_info:
    8:	01040000 	mrseq	r0, (UNDEF: 4)
    c:	00000000 	andeq	r0, r0, r0
   10:	08000000 	stmdaeq	r0, {}	; <UNPREDICTABLE>
-  14:	08000194 	stmdaeq	r0, {r2, r4, r7, r8}
+  14:	080001ac 	stmdaeq	r0, {r2, r3, r5, r7, r8}
   18:	336d7473 	cmncc	sp, #1929379840	; 0x73000000
   1c:	30316632 	eorscc	r6, r1, r2, lsr r6
   20:	74386333 	ldrtvc	r6, [r8], #-819	; 0xfffffccd
@@ -273,5 +286,5 @@ Disassembly of section .debug_aranges:
    8:	00040000 	andeq	r0, r4, r0
    c:	00000000 	andeq	r0, r0, r0
   10:	08000000 	stmdaeq	r0, {}	; <UNPREDICTABLE>
-  14:	00000194 	muleq	r0, r4, r1
+  14:	000001ac 	andeq	r0, r0, ip, lsr #3
 	...

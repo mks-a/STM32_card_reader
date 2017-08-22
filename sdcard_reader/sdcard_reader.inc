@@ -30,6 +30,8 @@ _sdcard_reader_spi2_init_send_cmd0_param:
 	subs r1, r1, 0x01
 	bne _sdcard_reader_spi2_init_send_cmd0_param	@ branch if not equal
 	
+	bl spi_read_sync_response_spi2
+	
 	pop {lr}
 	pop {r0, r1}
 	bx lr

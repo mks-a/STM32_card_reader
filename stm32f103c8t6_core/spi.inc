@@ -33,12 +33,9 @@ spi_master_enable_spi2:
 	ldr r1, =SPI2_CR1
 	ldr r0, [r1]
 	
-	@MSTR and SPE bits must be set (they remain set only if the NSS pin is connected to a high-level signal
+	@MSTR and SPE bits must be set (they remain set only if the NSS pin is connected to a high-level signal)
 	orr r0, r0, 0x44
 	str r0, [r1]
-	
-	bkpt
-	ldr r0, [r1]
 
 	pop {r0, r1}
 	bx lr
@@ -48,16 +45,24 @@ spi_master_enable_spi2:
 @ function does not return any value
 @ this function sends data syncronuously (do not return control to the main program until data will be send)
 spi_send_data8_sync_spi2:
-	push {r0, r1}
+	push {r0, r1, r2}		@ pushing executed so r2, r1, r0
 	
+	@ save base pointer
+	mov r2, sp
+	
+	@ set TXE bit in SPI2_SR register
+	ldr r1, =SPI2_SR
+	ldr r0, =0x02
+	str r0, [r1]
+	
+	bkpt
 	ldr r1, =SPI1_DR
-	
+	ldr r0, [r2]			@ load passed value (r0) from the stack
 	@ clear 3 highest bits in r0 register
 	and r0, r0, 0xFF
 	
 	str r0, [r1]
-	ldr r0, [r1]
-	bkpt
+	
 @ loop while TXE (bit 1) in SPI_SR is 0 (transmit buffer not empty)
 _spi_send_data8_sync_spi2_wait_loop:
 	ldr r1, =SPI1_SR
@@ -65,7 +70,7 @@ _spi_send_data8_sync_spi2_wait_loop:
 	ands r0, r0, 0x02									@ check for 1 bit (does it set or not)
 	beq	_spi_send_data8_sync_spi2_wait_loop				@ branch if zero
 	
-	pop {r0, r1}
+	pop {r0, r1, r2}	@ poping executed so r0, r1, r2
 	bx lr
 
 @ reads response from SPI2 data register

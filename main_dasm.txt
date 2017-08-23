@@ -8,34 +8,34 @@ Disassembly of section .text:
  8000000:	20005000 	andcs	r5, r0, r0
 
 08000004 <RESET>:
- 8000004:	0800016a 	stmdaeq	r0, {r1, r3, r5, r6, r8}
+ 8000004:	08000170 	stmdaeq	r0, {r4, r5, r6, r8}
 
 08000008 <NMI_HANDLER>:
- 8000008:	0800017c 	stmdaeq	r0, {r2, r3, r4, r5, r6, r8}
+ 8000008:	08000182 	stmdaeq	r0, {r1, r7, r8}
 
 0800000c <HARD_FAULT>:
- 800000c:	08000180 	stmdaeq	r0, {r7, r8}
+ 800000c:	08000186 	stmdaeq	r0, {r1, r2, r7, r8}
 
 08000010 <MEMORY_FAULT>:
- 8000010:	08000184 	stmdaeq	r0, {r2, r7, r8}
+ 8000010:	0800018a 	stmdaeq	r0, {r1, r3, r7, r8}
 
 08000014 <BUS_FAULT>:
- 8000014:	08000188 	stmdaeq	r0, {r3, r7, r8}
+ 8000014:	0800018e 	stmdaeq	r0, {r1, r2, r3, r7, r8}
 
 08000018 <USAGE_FAULT>:
- 8000018:	0800018c 	stmdaeq	r0, {r2, r3, r7, r8}
+ 8000018:	08000192 	stmdaeq	r0, {r1, r4, r7, r8}
 	...
 
 080000d0 <SPI2_INTERRUPT>:
- 80000d0:	08000191 	stmdaeq	r0, {r0, r4, r7, r8}
+ 80000d0:	08000197 	stmdaeq	r0, {r0, r1, r2, r4, r7, r8}
 
 080000d4 <spi_init_spi2>:
  80000d4:	b403      	push	{r0, r1}
- 80000d6:	4930      	ldr	r1, [pc, #192]	; (8000198 <returtn_form_interrupt+0x6>)
+ 80000d6:	4931      	ldr	r1, [pc, #196]	; (800019c <returtn_form_interrupt+0x4>)
  80000d8:	6808      	ldr	r0, [r1, #0]
  80000da:	f440 4080 	orr.w	r0, r0, #16384	; 0x4000
  80000de:	6008      	str	r0, [r1, #0]
- 80000e0:	492e      	ldr	r1, [pc, #184]	; (800019c <returtn_form_interrupt+0xa>)
+ 80000e0:	492f      	ldr	r1, [pc, #188]	; (80001a0 <returtn_form_interrupt+0x8>)
  80000e2:	f44f 7060 	mov.w	r0, #896	; 0x380
  80000e6:	6008      	str	r0, [r1, #0]
  80000e8:	bc03      	pop	{r0, r1}
@@ -43,111 +43,112 @@ Disassembly of section .text:
 
 080000ec <spi_master_enable_spi2>:
  80000ec:	b403      	push	{r0, r1}
- 80000ee:	492b      	ldr	r1, [pc, #172]	; (800019c <returtn_form_interrupt+0xa>)
+ 80000ee:	492c      	ldr	r1, [pc, #176]	; (80001a0 <returtn_form_interrupt+0x8>)
  80000f0:	6808      	ldr	r0, [r1, #0]
  80000f2:	f040 0044 	orr.w	r0, r0, #68	; 0x44
  80000f6:	6008      	str	r0, [r1, #0]
- 80000f8:	be00      	bkpt	0x0000
- 80000fa:	6808      	ldr	r0, [r1, #0]
- 80000fc:	bc03      	pop	{r0, r1}
- 80000fe:	4770      	bx	lr
+ 80000f8:	bc03      	pop	{r0, r1}
+ 80000fa:	4770      	bx	lr
 
-08000100 <spi_send_data8_sync_spi2>:
- 8000100:	b403      	push	{r0, r1}
- 8000102:	4927      	ldr	r1, [pc, #156]	; (80001a0 <returtn_form_interrupt+0xe>)
- 8000104:	f000 00ff 	and.w	r0, r0, #255	; 0xff
- 8000108:	6008      	str	r0, [r1, #0]
- 800010a:	6808      	ldr	r0, [r1, #0]
- 800010c:	be00      	bkpt	0x0000
+080000fc <spi_send_data8_sync_spi2>:
+ 80000fc:	b407      	push	{r0, r1, r2}
+ 80000fe:	466a      	mov	r2, sp
+ 8000100:	4928      	ldr	r1, [pc, #160]	; (80001a4 <returtn_form_interrupt+0xc>)
+ 8000102:	f04f 0002 	mov.w	r0, #2
+ 8000106:	6008      	str	r0, [r1, #0]
+ 8000108:	be00      	bkpt	0x0000
+ 800010a:	4927      	ldr	r1, [pc, #156]	; (80001a8 <returtn_form_interrupt+0x10>)
+ 800010c:	6810      	ldr	r0, [r2, #0]
+ 800010e:	f000 00ff 	and.w	r0, r0, #255	; 0xff
+ 8000112:	6008      	str	r0, [r1, #0]
 
-0800010e <_spi_send_data8_sync_spi2_wait_loop>:
- 800010e:	4925      	ldr	r1, [pc, #148]	; (80001a4 <returtn_form_interrupt+0x12>)
- 8000110:	6808      	ldr	r0, [r1, #0]
- 8000112:	f010 0002 	ands.w	r0, r0, #2
- 8000116:	d0fa      	beq.n	800010e <_spi_send_data8_sync_spi2_wait_loop>
- 8000118:	bc03      	pop	{r0, r1}
- 800011a:	4770      	bx	lr
+08000114 <_spi_send_data8_sync_spi2_wait_loop>:
+ 8000114:	4925      	ldr	r1, [pc, #148]	; (80001ac <returtn_form_interrupt+0x14>)
+ 8000116:	6808      	ldr	r0, [r1, #0]
+ 8000118:	f010 0002 	ands.w	r0, r0, #2
+ 800011c:	d0fa      	beq.n	8000114 <_spi_send_data8_sync_spi2_wait_loop>
+ 800011e:	bc07      	pop	{r0, r1, r2}
+ 8000120:	4770      	bx	lr
 
-0800011c <spi_read_sync_response_spi2>:
- 800011c:	b402      	push	{r1}
- 800011e:	ea80 0000 	eor.w	r0, r0, r0
- 8000122:	4921      	ldr	r1, [pc, #132]	; (80001a8 <returtn_form_interrupt+0x16>)
- 8000124:	6808      	ldr	r0, [r1, #0]
- 8000126:	bc02      	pop	{r1}
- 8000128:	4770      	bx	lr
+08000122 <spi_read_sync_response_spi2>:
+ 8000122:	b402      	push	{r1}
+ 8000124:	ea80 0000 	eor.w	r0, r0, r0
+ 8000128:	4921      	ldr	r1, [pc, #132]	; (80001b0 <returtn_form_interrupt+0x18>)
+ 800012a:	6808      	ldr	r0, [r1, #0]
+ 800012c:	bc02      	pop	{r1}
+ 800012e:	4770      	bx	lr
 
-0800012a <sdcard_reader_spi2_init>:
- 800012a:	b403      	push	{r0, r1}
- 800012c:	b500      	push	{lr}
- 800012e:	f7ff ffd1 	bl	80000d4 <spi_init_spi2>
- 8000132:	f7ff ffdb 	bl	80000ec <spi_master_enable_spi2>
- 8000136:	f85d eb04 	ldr.w	lr, [sp], #4
- 800013a:	b500      	push	{lr}
- 800013c:	f04f 0040 	mov.w	r0, #64	; 0x40
- 8000140:	f7ff ffde 	bl	8000100 <spi_send_data8_sync_spi2>
- 8000144:	f04f 0000 	mov.w	r0, #0
- 8000148:	f04f 0104 	mov.w	r1, #4
+08000130 <sdcard_reader_spi2_init>:
+ 8000130:	b403      	push	{r0, r1}
+ 8000132:	b500      	push	{lr}
+ 8000134:	f7ff ffce 	bl	80000d4 <spi_init_spi2>
+ 8000138:	f7ff ffd8 	bl	80000ec <spi_master_enable_spi2>
+ 800013c:	f85d eb04 	ldr.w	lr, [sp], #4
+ 8000140:	b500      	push	{lr}
+ 8000142:	f04f 0040 	mov.w	r0, #64	; 0x40
+ 8000146:	f7ff ffd9 	bl	80000fc <spi_send_data8_sync_spi2>
+ 800014a:	f04f 0000 	mov.w	r0, #0
+ 800014e:	f04f 0104 	mov.w	r1, #4
 
-0800014c <_sdcard_reader_spi2_init_send_cmd0_param>:
- 800014c:	f7ff ffd8 	bl	8000100 <spi_send_data8_sync_spi2>
- 8000150:	3901      	subs	r1, #1
- 8000152:	d1fb      	bne.n	800014c <_sdcard_reader_spi2_init_send_cmd0_param>
- 8000154:	f7ff ffe2 	bl	800011c <spi_read_sync_response_spi2>
- 8000158:	f85d eb04 	ldr.w	lr, [sp], #4
- 800015c:	bc03      	pop	{r0, r1}
- 800015e:	4770      	bx	lr
+08000152 <_sdcard_reader_spi2_init_send_cmd0_param>:
+ 8000152:	f7ff ffd3 	bl	80000fc <spi_send_data8_sync_spi2>
+ 8000156:	3901      	subs	r1, #1
+ 8000158:	d1fb      	bne.n	8000152 <_sdcard_reader_spi2_init_send_cmd0_param>
+ 800015a:	f7ff ffe2 	bl	8000122 <spi_read_sync_response_spi2>
+ 800015e:	f85d eb04 	ldr.w	lr, [sp], #4
+ 8000162:	bc03      	pop	{r0, r1}
+ 8000164:	4770      	bx	lr
 
-08000160 <sdcard_send_spi2_cmd>:
- 8000160:	b403      	push	{r0, r1}
- 8000162:	4911      	ldr	r1, [pc, #68]	; (80001a8 <returtn_form_interrupt+0x16>)
- 8000164:	6008      	str	r0, [r1, #0]
- 8000166:	bc03      	pop	{r0, r1}
- 8000168:	4770      	bx	lr
+08000166 <sdcard_send_spi2_cmd>:
+ 8000166:	b403      	push	{r0, r1}
+ 8000168:	4911      	ldr	r1, [pc, #68]	; (80001b0 <returtn_form_interrupt+0x18>)
+ 800016a:	6008      	str	r0, [r1, #0]
+ 800016c:	bc03      	pop	{r0, r1}
+ 800016e:	4770      	bx	lr
 
-0800016a <main>:
- 800016a:	b662      	cpsie	i
- 800016c:	b500      	push	{lr}
- 800016e:	f7ff ffdc 	bl	800012a <sdcard_reader_spi2_init>
- 8000172:	f85d eb04 	ldr.w	lr, [sp], #4
+08000170 <main>:
+ 8000170:	b662      	cpsie	i
+ 8000172:	b500      	push	{lr}
+ 8000174:	f7ff ffdc 	bl	8000130 <sdcard_reader_spi2_init>
+ 8000178:	f85d eb04 	ldr.w	lr, [sp], #4
 
-08000176 <_main_loop>:
- 8000176:	bf30      	wfi
- 8000178:	e7fd      	b.n	8000176 <_main_loop>
- 800017a:	4770      	bx	lr
+0800017c <_main_loop>:
+ 800017c:	bf30      	wfi
+ 800017e:	e7fd      	b.n	800017c <_main_loop>
+ 8000180:	4770      	bx	lr
 
-0800017c <nmi_fault>:
- 800017c:	be00      	bkpt	0x0000
- 800017e:	4770      	bx	lr
+08000182 <nmi_fault>:
+ 8000182:	be00      	bkpt	0x0000
+ 8000184:	4770      	bx	lr
 
-08000180 <hard_fault>:
- 8000180:	be00      	bkpt	0x0000
- 8000182:	4770      	bx	lr
+08000186 <hard_fault>:
+ 8000186:	be00      	bkpt	0x0000
+ 8000188:	4770      	bx	lr
 
-08000184 <memory_fault>:
- 8000184:	be00      	bkpt	0x0000
- 8000186:	4770      	bx	lr
+0800018a <memory_fault>:
+ 800018a:	be00      	bkpt	0x0000
+ 800018c:	4770      	bx	lr
 
-08000188 <bus_fault>:
- 8000188:	be00      	bkpt	0x0000
- 800018a:	4770      	bx	lr
-
-0800018c <usage_fault>:
- 800018c:	be00      	bkpt	0x0000
- 800018e:	4770      	bx	lr
-
-08000190 <spi2_interrupt>:
+0800018e <bus_fault>:
+ 800018e:	be00      	bkpt	0x0000
  8000190:	4770      	bx	lr
 
-08000192 <returtn_form_interrupt>:
+08000192 <usage_fault>:
  8000192:	be00      	bkpt	0x0000
  8000194:	4770      	bx	lr
- 8000196:	101c0000 	andsne	r0, ip, r0
- 800019a:	38004002 	stmdacc	r0, {r1, lr}
- 800019e:	300c4000 	andcc	r4, ip, r0
- 80001a2:	30084001 	andcc	r4, r8, r1
- 80001a6:	380c4001 	stmdacc	ip, {r0, lr}
- 80001aa:	Address 0x080001aa is out of bounds.
 
+08000196 <spi2_interrupt>:
+ 8000196:	4770      	bx	lr
+
+08000198 <returtn_form_interrupt>:
+ 8000198:	be00      	bkpt	0x0000
+ 800019a:	4770      	bx	lr
+ 800019c:	4002101c 	andmi	r1, r2, ip, lsl r0
+ 80001a0:	40003800 	andmi	r3, r0, r0, lsl #16
+ 80001a4:	40003808 	andmi	r3, r0, r8, lsl #16
+ 80001a8:	4001300c 	andmi	r3, r1, ip
+ 80001ac:	40013008 	andmi	r3, r1, r8
+ 80001b0:	4000380c 	andmi	r3, r0, ip, lsl #16
 
 Disassembly of section .ARM.attributes:
 
@@ -166,7 +167,7 @@ Disassembly of section .ARM.attributes:
 Disassembly of section .debug_line:
 
 00000000 <.debug_line>:
-   0:	000000e0 	andeq	r0, r0, r0, ror #1
+   0:	000000e3 	andeq	r0, r0, r3, ror #1
    4:	00650002 	rsbeq	r0, r5, r2
    8:	01020000 	mrseq	r0, (UNDEF: 2)
    c:	000d0efb 	strdeq	r0, [sp], -fp
@@ -200,29 +201,31 @@ Disassembly of section .debug_line:
   7c:	2f21232f 	svccs	0x0021232f
   80:	23252122 			; <UNDEFINED> instruction: 0x23252122
   84:	222f2321 	eorcs	r2, pc, #-2080374784	; 0x84000000
-  88:	27212221 	strcs	r2, [r1, -r1, lsr #4]!
-  8c:	21302322 	teqcs	r0, r2, lsr #6
-  90:	21212321 			; <UNDEFINED> instruction: 0x21212321
-  94:	2621222f 	strtcs	r2, [r1], -pc, lsr #4
-  98:	22212f22 	eorcs	r2, r1, #34, 30	; 0x88
-  9c:	03020421 	movweq	r0, #9249	; 0x2421
-  a0:	21207fbb 			; <UNDEFINED> instruction: 0x21207fbb
-  a4:	312f2f21 			; <UNDEFINED> instruction: 0x312f2f21
-  a8:	2f312f22 	svccs	0x00312f22
-  ac:	22212f30 	eorcs	r2, r1, #48, 30	; 0xc0
-  b0:	27212f30 			; <UNDEFINED> instruction: 0x27212f30
-  b4:	21222122 			; <UNDEFINED> instruction: 0x21222122
-  b8:	6a030304 	bvs	c0cd0 <SDCARD_READER_DEF+0xc0cd0>
-  bc:	2f212120 	svccs	0x00212120
-  c0:	24232232 	strtcs	r2, [r3], #-562	; 0xfffffdce
-  c4:	24212421 	strtcs	r2, [r1], #-1057	; 0xfffffbdf
+  88:	23232721 			; <UNDEFINED> instruction: 0x23232721
+  8c:	21222f21 			; <UNDEFINED> instruction: 0x21222f21
+  90:	24302221 	ldrtcs	r2, [r0], #-545	; 0xfffffddf
+  94:	222f2121 	eorcs	r2, pc, #1073741832	; 0x40000008
+  98:	2f222621 	svccs	0x00222621
+  9c:	04212221 	strteq	r2, [r1], #-545	; 0xfffffddf
+  a0:	7fb60302 	svcvc	0x00b60302
+  a4:	2f212120 	svccs	0x00212120
+  a8:	2f22312f 	svccs	0x0022312f
+  ac:	2f302f31 	svccs	0x00302f31
+  b0:	2f302221 	svccs	0x00302221
+  b4:	21222721 			; <UNDEFINED> instruction: 0x21222721
+  b8:	03042122 	movweq	r2, #16674	; 0x4122
+  bc:	21206a03 			; <UNDEFINED> instruction: 0x21206a03
+  c0:	22322f21 	eorscs	r2, r2, #33, 30	; 0x84
+  c4:	24212423 	strtcs	r2, [r1], #-1059	; 0xfffffbdd
   c8:	24212421 	strtcs	r2, [r1], #-1057	; 0xfffffbdf
-  cc:	21252321 			; <UNDEFINED> instruction: 0x21252321
-  d0:	43030104 	movwmi	r0, #12548	; 0x3104
-  d4:	2103352e 	tstcs	r3, lr, lsr #10
-  d8:	2e0a032e 	cdpcs	3, 0, cr0, cr10, cr14, {1}
-  dc:	022e0f03 	eoreq	r0, lr, #3, 30
-  e0:	01010002 	tsteq	r1, r2
+  cc:	23212421 			; <UNDEFINED> instruction: 0x23212421
+  d0:	01042125 	tsteq	r4, r5, lsr #2
+  d4:	35204303 	strcc	r4, [r0, #-771]!	; 0xfffffcfd
+  d8:	332e2203 			; <UNDEFINED> instruction: 0x332e2203
+  dc:	032e0903 			; <UNDEFINED> instruction: 0x032e0903
+  e0:	02022e0f 	andeq	r2, r2, #15, 28	; 0xf0
+  e4:	Address 0x000000e4 is out of bounds.
+
 
 Disassembly of section .debug_info:
 
@@ -232,7 +235,7 @@ Disassembly of section .debug_info:
    8:	01040000 	mrseq	r0, (UNDEF: 4)
    c:	00000000 	andeq	r0, r0, r0
   10:	08000000 	stmdaeq	r0, {}	; <UNPREDICTABLE>
-  14:	080001ac 	stmdaeq	r0, {r2, r3, r5, r7, r8}
+  14:	080001b4 	stmdaeq	r0, {r2, r4, r5, r7, r8}
   18:	336d7473 	cmncc	sp, #1929379840	; 0x73000000
   1c:	30316632 	eorscc	r6, r1, r2, lsr r6
   20:	74386333 	ldrtvc	r6, [r8], #-819	; 0xfffffccd
@@ -286,5 +289,5 @@ Disassembly of section .debug_aranges:
    8:	00040000 	andeq	r0, r4, r0
    c:	00000000 	andeq	r0, r0, r0
   10:	08000000 	stmdaeq	r0, {}	; <UNPREDICTABLE>
-  14:	000001ac 	andeq	r0, r0, ip, lsr #3
+  14:	000001b4 			; <UNDEFINED> instruction: 0x000001b4
 	...

@@ -50,13 +50,11 @@ spi_send_data8_sync_spi2:
 	@ save base pointer
 	mov r2, sp
 	
-	@ set TXE bit in SPI2_SR register
-	ldr r1, =SPI2_SR
-	ldr r0, =0x02
-	str r0, [r1]
-	
 	bkpt
-	ldr r1, =SPI1_DR
+	ldr r1, =SPI2_CR1
+	ldr r0, [r1]
+	
+	ldr r1, =SPI2_DR
 	ldr r0, [r2]			@ load passed value (r0) from the stack
 	@ clear 3 highest bits in r0 register
 	and r0, r0, 0xFF
@@ -65,11 +63,11 @@ spi_send_data8_sync_spi2:
 	
 @ loop while TXE (bit 1) in SPI_SR is 0 (transmit buffer not empty)
 _spi_send_data8_sync_spi2_wait_loop:
-	ldr r1, =SPI1_SR
+	ldr r1, =SPI2_SR
 	ldr r0, [r1]
 	ands r0, r0, 0x02									@ check for 1 bit (does it set or not)
 	beq	_spi_send_data8_sync_spi2_wait_loop				@ branch if zero
-	
+	bkpt
 	pop {r0, r1, r2}	@ poping executed so r0, r1, r2
 	bx lr
 

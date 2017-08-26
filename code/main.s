@@ -21,6 +21,7 @@ SPI2_INTERRUPT: .word spi2_interrupt + 1
 .include "sdcard_reader/sdcard_reader.inc"
 .endif
 
+.section .text
 @.balign 2 				@ if bit 0 of address is 1 this indicate Thumb state of CPU, for Cortex-M it always should be 1, becaus it not support ARM state
 main:
 	

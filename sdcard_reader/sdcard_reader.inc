@@ -48,9 +48,8 @@ _sdcard_reader_spi2_init_send_cmd0_param:
 	subs r1, r1, 0x01
 	bne _sdcard_reader_spi2_init_send_cmd0_param	@ branch if not equal
 	
-	bkpt
 	ldr r1, =last_response
-	ldr r0, [r1]									@ TODO: how to access memory location directly?
+	ldr r0, [r1]
 	ldr r1, =data_readed
 	ldrh r2, [r1]									@ load half-word from SRAM
 	
